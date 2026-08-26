@@ -1,0 +1,8 @@
+# Reverse proxy with automatic HTTPS for the CEPEM Watch central server.
+# Set CEPEM_DOMAIN in the environment (see docker-compose.yml).
+# With CEPEM_DOMAIN=localhost, Caddy serves a local self-signed cert (dev only).
+
+{$CEPEM_DOMAIN} {
+	encode gzip
+	reverse_proxy cepem-watch:5600
+}

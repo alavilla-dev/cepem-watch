@@ -1,0 +1,23 @@
+# Keep the Docker build context small and correct.
+.git
+**/.git
+.venv
+**/__pycache__
+**/*.pyc
+**/node_modules
+**/dist
+**/build
+**/htmlcov
+**/.coverage
+**/coverage.xml
+*.log
+.claude
+# Rust / Tauri / extra editions not used by the Python central server:
+aw-server-rust
+aw-tauri
+awatcher
+aw-notify
+aw-watcher-input
+aw-watcher-afk
+aw-watcher-window
+aw-qt

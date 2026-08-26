@@ -1,0 +1,47 @@
+# CEPEM Watch central server + Caddy (automatic TLS).
+#
+#   cd deploy
+#   CEPEM_DOMAIN=watch.cepem.example docker compose up -d --build
+#   docker compose exec cepem-watch python -m aw_server.authcli add alice
+#
+# Caddy obtains/renews a Let's Encrypt certificate for $CEPEM_DOMAIN automatically
+# (the domain's DNS must point at this host and ports 80/443 must be reachable).
+
+services:
+  cepem-watch:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    image: cepem-watch-server:latest
+    restart: unless-stopped
+    volumes:
+      - cw-data:/data # event database
+      - cw-config:/config # users.json (tokens) + server config
+      - cw-cache:/cache # logs
+    expose:
+      - "5600"
+    # For LAN/VPN use WITHOUT the TLS proxy, publish the port directly instead:
+    # ports:
+    #   - "5600:5600"
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    depends_on:
+      - cepem-watch
+    environment:
+      - CEPEM_DOMAIN=${CEPEM_DOMAIN:-localhost}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+
+volumes:
+  cw-data:
+  cw-config:
+  cw-cache:
+  caddy-data:
+  caddy-config:
