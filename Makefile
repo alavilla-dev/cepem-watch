@@ -20,7 +20,7 @@ ifeq ($(TAURI_BUILD),true)
 		SUBMODULES := $(SUBMODULES) awatcher
 	endif
 else
-	SUBMODULES := aw-core aw-client aw-qt aw-server aw-server-rust aw-watcher-afk aw-watcher-window
+	SUBMODULES := aw-core aw-client aw-qt aw-server aw-server-rust aw-watcher-afk aw-watcher-window aw-watcher-screenshot
 endif
 
 # Exclude aw-server-rust if SKIP_SERVER_RUST is true

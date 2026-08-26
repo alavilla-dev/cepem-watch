@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "aw-watcher-screenshot"
+version = "0.1.0"
+description = "Screenshot watcher for CEPEM Watch (captures on a schedule within configured hours)"
+authors = ["CEPEM"]
+license = "MPL-2.0"
+
+[tool.poetry.scripts]
+aw-watcher-screenshot = "aw_watcher_screenshot:main"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+aw-client = "^0.5.8"
+mss = "^9.0"
+Pillow = ">=9"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "*"
+mypy = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
