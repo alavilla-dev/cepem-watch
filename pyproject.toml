@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "activitywatch"
+name = "cepem-watch"
 version = "0.14.0"
-description = "The free and open-source automated time tracker. Cross-platform, extensible, privacy-focused."
+description = "CEPEM Watch — automated time tracker for CEPEM. Fork of ActivityWatch (MPL-2.0). Cross-platform, extensible, privacy-focused."
 authors = ["Erik Bjäreholt <erik@bjareho.lt>", "Johan Bjäreholt <johan@bjareho.lt>"]
 license = "MPL-2.0"
 package-mode = false

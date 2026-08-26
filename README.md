@@ -1,9 +1,17 @@
-<img title="ActivityWatch" src="https://activitywatch.net/img/banner.png" align="center">
+<h1 align="center">CEPEM Watch</h1>
 
 <p align="center">
   <b>Records what you do</b> so that you can <i>know how you've spent your time</i>.
   <br>
   All in a secure way where <i>you control the data</i>.
+</p>
+
+<p align="center">
+  <sub>
+    CEPEM Watch is a fork of <a href="https://activitywatch.net/">ActivityWatch</a>
+    (© ActivityWatch contributors), distributed under the MPL-2.0 license.
+    It is not affiliated with or endorsed by the ActivityWatch project.
+  </sub>
 </p>
 
 <p align="center">

@@ -70,7 +70,7 @@ current_release = subprocess.run(
     stderr=subprocess.STDOUT,
     encoding="utf8",
 ).stdout.strip()
-print("bundling activitywatch version " + current_release)
+print("bundling cepem-watch version " + current_release)
 
 # Get entitlements and codesign identity
 entitlements_file = Path(".") / "scripts" / "package" / "entitlements.plist"
@@ -229,9 +229,9 @@ if platform.system() == "Darwin":
     
     app = BUNDLE(
         *bundle_args,
-        name="ActivityWatch.app",
+        name="CEPEM Watch.app",
         icon=icon,
-        bundle_identifier="net.activitywatch.ActivityWatch",
+        bundle_identifier="org.cepem.CepemWatch",
         version=current_release.lstrip("v"),
         info_plist={
             "NSPrincipalClass": "NSApplication",

@@ -80,7 +80,7 @@ fi
 function build_zip() {
     echo "Zipping executables..."
     pushd dist;
-    filename="activitywatch${build_suffix}-${version}-${platform}-${arch}.zip"
+    filename="cepem-watch${build_suffix}-${version}-${platform}-${arch}.zip"
     echo "Name of package will be: $filename"
 
     if [[ $platform == "windows"* ]]; then
@@ -93,7 +93,7 @@ function build_zip() {
 }
 
 function build_setup() {
-    filename="activitywatch${build_suffix}-${version}-${platform}-${arch}-setup.exe"
+    filename="cepem-watch${build_suffix}-${version}-${platform}-${arch}-setup.exe"
     echo "Name of package will be: $filename"
 
     innosetupdir="/c/Program Files (x86)/Inno Setup 6"
@@ -107,7 +107,7 @@ function build_setup() {
     else
         env AW_VERSION=$version_no_prefix "$innosetupdir/iscc.exe" scripts/package/activitywatch-setup.iss
     fi
-    mv dist/activitywatch-setup.exe dist/$filename
+    mv dist/cepem-watch-setup.exe dist/$filename
     echo "Setup built!"
 }
 
