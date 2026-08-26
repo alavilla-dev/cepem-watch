@@ -96,16 +96,29 @@ function build_setup() {
     filename="cepem-watch${build_suffix}-${version}-${platform}-${arch}-setup.exe"
     echo "Name of package will be: $filename"
 
-    innosetupdir="/c/Program Files (x86)/Inno Setup 6"
-    if [ ! -d "$innosetupdir" ]; then
-        echo "ERROR: Couldn't find innosetup which is needed to build the installer. We suggest you install it using chocolatey. Exiting."
+    # Locate the Inno Setup compiler. Inno may be installed system-wide or
+    # per-user (winget), so probe several locations and finally PATH.
+    iscc=""
+    for cand in \
+        "/c/Program Files (x86)/Inno Setup 6" \
+        "/c/Program Files/Inno Setup 6" \
+        "$LOCALAPPDATA/Programs/Inno Setup 6" \
+        "$HOME/AppData/Local/Programs/Inno Setup 6"; do
+        if [ -f "$cand/ISCC.exe" ]; then iscc="$cand/ISCC.exe"; break; fi
+        if [ -f "$cand/iscc.exe" ]; then iscc="$cand/iscc.exe"; break; fi
+    done
+    if [ -z "$iscc" ] && command -v iscc >/dev/null 2>&1; then
+        iscc="$(command -v iscc)"
+    fi
+    if [ -z "$iscc" ]; then
+        echo "ERROR: Couldn't find Inno Setup (ISCC.exe) which is needed to build the installer. Install it (e.g. 'winget install JRSoftware.InnoSetup'). Exiting."
         exit 1
     fi
 
     if [[ $TAURI_BUILD == "true" ]]; then
-        env AW_VERSION=$version_no_prefix "$innosetupdir/iscc.exe" scripts/package/aw-tauri.iss
+        env AW_VERSION=$version_no_prefix "$iscc" scripts/package/aw-tauri.iss
     else
-        env AW_VERSION=$version_no_prefix "$innosetupdir/iscc.exe" scripts/package/activitywatch-setup.iss
+        env AW_VERSION=$version_no_prefix "$iscc" scripts/package/activitywatch-setup.iss
     fi
     mv dist/cepem-watch-setup.exe dist/$filename
     echo "Setup built!"
