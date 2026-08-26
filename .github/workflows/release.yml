@@ -1,6 +1,6 @@
 name: Release
 
-# Unified release/build pipeline for ActivityWatch.
+# Unified release/build pipeline for CEPEM Watch.
 #
 # Triggers:
 #   - schedule / workflow_dispatch: decide whether to create a new dev prerelease tag
@@ -524,7 +524,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: builds-${{ matrix.os }}-py${{ matrix.python_version }}
-          path: dist/activitywatch-*.*
+          path: dist/cepem-watch-*.*
 
   build-tauri:
     name: Build Tauri artifacts
@@ -790,7 +790,7 @@ jobs:
           # aw-tauri's bundler produces .AppImage/.deb/.rpm under
           # dist/activitywatch/aw-tauri/ via `make package`. Copy them out with
           # versioned, arch-suffixed filenames so they match the
-          # `dist/activitywatch-*.*` upload pattern below.
+          # `dist/cepem-watch-*.*` upload pattern below.
           ARCH=$(uname -m)
           shopt -s nullglob
           EDITION=""
@@ -799,7 +799,7 @@ jobs:
             files=( dist/activitywatch/aw-tauri/*.${ext} )
             case ${#files[@]} in
               0) continue ;;
-              1) cp -v "${files[0]}" "dist/activitywatch-tauri${EDITION}-${VERSION_WITH_V}-linux-${ARCH}.${ext}" ;;
+              1) cp -v "${files[0]}" "dist/cepem-watch-tauri${EDITION}-${VERSION_WITH_V}-linux-${ARCH}.${ext}" ;;
               *) echo "ERROR: expected at most 1 .${ext} bundle, found ${#files[@]}" >&2; exit 1 ;;
             esac
           done
@@ -826,7 +826,7 @@ jobs:
           fi
           EDITION=""
           if [[ "$AW_RESEARCH_EDITION" == "true" ]]; then EDITION="-research"; fi
-          mv dist/ActivityWatch.dmg dist/activitywatch-tauri${EDITION}-${VERSION_WITH_V}-macos-$(uname -m).dmg
+          mv dist/ActivityWatch.dmg dist/cepem-watch-tauri${EDITION}-${VERSION_WITH_V}-macos-$(uname -m).dmg
         env:
           APPLE_EMAIL: ${{ secrets.APPLE_EMAIL }}
           APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
@@ -871,7 +871,7 @@ jobs:
                 *.exe)             ext="exe" ;;
                 *) echo "unknown updater bundle: $base" >&2; exit 1 ;;
               esac
-              out="dist/updater/activitywatch-tauri${EDITION}-${VERSION}-${PLATFORM_KEY}.${ext}"
+              out="dist/updater/cepem-watch-tauri${EDITION}-${VERSION}-${PLATFORM_KEY}.${ext}"
               cp "$artifact" "$out"
               cp "$sig" "$out.sig"
               found=$((found + 1))
@@ -891,7 +891,7 @@ jobs:
         with:
           name: builds-tauri-${{ matrix.os }}-py${{ matrix.python_version }}
           path: |
-            dist/activitywatch-*.*
+            dist/cepem-watch-*.*
             dist/updater/*
 
   release-notes:
@@ -1032,11 +1032,11 @@ jobs:
           if [[ "$TAG" == *-research ]]; then
             EDITION="research"
             MANIFEST="latest-research.json"
-            NOTES="ActivityWatch ${TAG} (Research Edition)"
+            NOTES="CEPEM Watch ${TAG} (Research Edition)"
           else
             EDITION="standard"
             MANIFEST="latest.json"
-            NOTES="ActivityWatch ${TAG}"
+            NOTES="CEPEM Watch ${TAG}"
           fi
           python3 scripts/package/generate_latest_json.py \
             --version "$VERSION" \
@@ -1055,7 +1055,7 @@ jobs:
           # Empty name falls back to the tag name (standard releases unchanged).
           name: ${{ endsWith(github.ref_name, '-research') && format('{0} (Research Edition)', github.ref_name) || '' }}
           files: |
-            dist/*/activitywatch-*.*
+            dist/*/cepem-watch-*.*
             dist/*/updater/*
             dist/latest.json
             dist/latest-research.json

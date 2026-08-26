@@ -1,13 +1,15 @@
 name: Publish to WinGet
+# Public WinGet submission is NOT appropriate for the internal CEPEM Watch fork.
+# This workflow is therefore manual-only (workflow_dispatch) and will not run on
+# releases. Enable/adjust only if CEPEM decides to distribute via WinGet.
 on:
-  release:
-    types: [released]
+  workflow_dispatch:
 jobs:
   publish:
     runs-on: windows-latest # action can only be run on windows
     steps:
       - uses: vedantmgoyal2009/winget-releaser@4ffc7888bffd451b357355dc214d43bb9f23917e # v2
         with:
-          identifier: ActivityWatch.ActivityWatch
+          identifier: CEPEM.CEPEMWatch
           token: ${{ secrets.GH_TOKEN_WINGET_AUTOUPDATE }}
-          fork-user: ActivityWatchBot
+          fork-user: alavilla-dev
